@@ -94,7 +94,14 @@ function LoginSignup({ onLogin }) {
       alert(isLogin ? 'Login successful!' : 'Account created successfully!');
       
       // Navigate to the page user was trying to access
-      navigate(from, { replace: true });
+      // If coming from payment, need to handle gig data properly
+      if (from === '/payment') {
+        // Need to get gig from previous location state
+        navigate('/', { replace: true });
+        alert('Please select a service again to continue with payment');
+      } else {
+        navigate(from, { replace: true });
+      }
     }
   };
 
