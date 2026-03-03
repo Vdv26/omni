@@ -204,6 +204,13 @@ function App() {
             <Route path="/favorites" element={<Favorites gigs={gigs} />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/login" element={<LoginSignup onLogin={handleLogin} />} />
+            
+            {/* New Footer Pages */}
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/help-center" element={<HelpCenter />} />
+            <Route path="/trust-safety" element={<TrustAndSafety />} />
+            <Route path="/contact-us" element={<ContactUs />} />
           </Routes>
           
           <Footer />
