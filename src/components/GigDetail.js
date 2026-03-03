@@ -110,7 +110,7 @@ function GigDetail({ gigs }) {
           
           <button 
             className="buy-btn" 
-            onClick={() => alert('Checkout functionality would be implemented here!')}
+            onClick={handleCheckout}
             data-testid="checkout-button"
           >
             Continue to Checkout
