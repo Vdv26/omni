@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, createContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from './components/Header';
 import CategoryMenu from './components/CategoryMenu';
