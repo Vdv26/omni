@@ -159,7 +159,9 @@ function App() {
     sortBy,
     setSortBy,
     priceRange,
-    setPriceRange
+    setPriceRange,
+    user,
+    handleLogout
   };
 
   return (
@@ -181,9 +183,22 @@ function App() {
               />
             } />
             <Route path="/gig/:id" element={<GigDetail gigs={gigs} />} />
-            <Route path="/post-gig" element={<PostGigForm onAddGig={handleAddGig} />} />
+            
+            {/* Protected Routes - Require Authentication */}
+            <Route path="/post-gig" element={
+              <ProtectedRoute>
+                <PostGigForm onAddGig={handleAddGig} />
+              </ProtectedRoute>
+            } />
+            <Route path="/payment" element={
+              <ProtectedRoute>
+                <Payment />
+              </ProtectedRoute>
+            } />
+            
             <Route path="/favorites" element={<Favorites gigs={gigs} />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/login" element={<LoginSignup onLogin={handleLogin} />} />
           </Routes>
           
           <Footer />
