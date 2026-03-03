@@ -107,6 +107,17 @@ function App() {
     );
   };
 
+  // Login handler
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
   // Filtered and Sorted Gigs using useMemo (performance optimization)
   const filteredAndSortedGigs = useMemo(() => {
     let result = [...gigs];
