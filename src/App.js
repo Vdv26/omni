@@ -43,9 +43,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState('default');
   const [priceRange, setPriceRange] = useState([0, 500]);
+  const [user, setUser] = useState(null);
 
   // Component Life Cycle - useEffect Hook (replaces componentDidMount)
   useEffect(() => {
+    // Check if user is logged in
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+
     // Load favorites from localStorage
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) {
