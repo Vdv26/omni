@@ -4,8 +4,8 @@ import RatingCanvas from './RatingCanvas';
 // User Profile Component - demonstrates useState, useEffect, and while loop
 function UserProfile() {
   const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: '',
+    email: '',
     memberSince: '2024',
     completedOrders: 15,
     rating: 4.8,
@@ -18,10 +18,36 @@ function UserProfile() {
 
   // Component lifecycle - useEffect
   useEffect(() => {
-    // Load user data from localStorage
-    const savedUserData = localStorage.getItem('userData');
-    if (savedUserData) {
-      setUserData(JSON.parse(savedUserData));
+    // Get logged in user data
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      
+      // Load saved profile data or create new with logged in user info
+      const savedUserData = localStorage.getItem('userData');
+      if (savedUserData) {
+        const profileData = JSON.parse(savedUserData);
+        setUserData({
+          ...profileData,
+          name: user.name,
+          email: user.email
+        });
+        setEditedBio(profileData.bio);
+      } else {
+        // Create new profile with logged in user data
+        const newUserData = {
+          name: user.name,
+          email: user.email,
+          memberSince: new Date().getFullYear().toString(),
+          completedOrders: 0,
+          rating: 5.0,
+          bio: 'Passionate freelancer with expertise in multiple domains.',
+          skills: ['React', 'JavaScript', 'Web Development']
+        };
+        setUserData(newUserData);
+        setEditedBio(newUserData.bio);
+        localStorage.setItem('userData', JSON.stringify(newUserData));
+      }
     }
   }, []);
 
