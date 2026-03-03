@@ -33,6 +33,19 @@ function GigDetail({ gigs }) {
     setShowContactModal(true);
   };
 
+  const handleCheckout = () => {
+    // Check if user is logged in
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    
+    if (!user || !user.loggedIn) {
+      // Redirect to login with return path
+      navigate('/login', { state: { from: `/payment` } });
+    } else {
+      // Navigate to payment page with gig data
+      navigate('/payment', { state: { gig } });
+    }
+  };
+
   return (
     <div className="detail-container" data-testid="gig-detail">
       <button className="back-btn" onClick={handleGoBack} data-testid="back-button">
