@@ -6,7 +6,7 @@ import { AppContext } from '../App';
 // Functional Component with Hooks (replaces class component)
 function Header({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
-  const { favorites } = useContext(AppContext);
+  const { favorites, user, handleLogout } = useContext(AppContext);
   const navigate = useNavigate();
   const location = useLocation();
 
