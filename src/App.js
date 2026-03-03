@@ -11,6 +11,11 @@ import Favorites from './components/Favorites';
 import UserProfile from './components/UserProfile';
 import LoginSignup from './components/LoginSignup';
 import Payment from './components/Payment';
+import HowItWorks from './components/HowItWorks';
+import Resources from './components/Resources';
+import HelpCenter from './components/HelpCenter';
+import TrustAndSafety from './components/TrustAndSafety';
+import ContactUs from './components/ContactUs';
 import Footer from './components/Footer';
 import './App.css';
 
