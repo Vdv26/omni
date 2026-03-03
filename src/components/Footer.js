@@ -18,8 +18,7 @@ function Footer() {
           <h4>For Clients</h4>
           <ul>
             <li><Link to="/">Find Services</Link></li>
-            <li><Link to="/">How it Works</Link></li>
-            <li><Link to="/">Success Stories</Link></li>
+            <li><Link to="/how-it-works">How it Works</Link></li>
           </ul>
         </div>
         
@@ -27,23 +26,22 @@ function Footer() {
           <h4>For Freelancers</h4>
           <ul>
             <li><Link to="/post-gig">Post a Service</Link></li>
-            <li><Link to="/">Become a Seller</Link></li>
-            <li><Link to="/">Resources</Link></li>
+            <li><Link to="/resources">Resources</Link></li>
           </ul>
         </div>
         
         <div className="footer-section">
           <h4>Support</h4>
           <ul>
-            <li><Link to="/">Help Center</Link></li>
-            <li><Link to="/">Trust & Safety</Link></li>
-            <li><Link to="/">Contact Us</Link></li>
+            <li><Link to="/help-center">Help Center</Link></li>
+            <li><Link to="/trust-safety">Trust & Safety</Link></li>
+            <li><Link to="/contact-us">Contact Us</Link></li>
           </ul>
         </div>
       </div>
       
       <div className="footer-bottom">
-        <p>© 2025 OmniGigs. All rights reserved. | Built with React for Web Programming Course</p>
+        <p>© 2026 OmniGigs. All rights reserved. | Built with React for Web Programming Course</p>
       </div>
     </footer>
   );
