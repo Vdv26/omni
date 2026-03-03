@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, createContext } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from './components/Header';
 import CategoryMenu from './components/CategoryMenu';
@@ -9,11 +9,30 @@ import Hero from './components/Hero';
 import PostGigForm from './components/PostGigForm';
 import Favorites from './components/Favorites';
 import UserProfile from './components/UserProfile';
+import LoginSignup from './components/LoginSignup';
+import Payment from './components/Payment';
 import Footer from './components/Footer';
 import './App.css';
 
 // Context API for global state management (React Context demonstration)
 export const AppContext = createContext();
+
+// Protected Route Component - requires authentication
+function ProtectedRoute({ children }) {
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  
+  if (!user || !user.loggedIn) {
+    // Redirect to login, save the location they were trying to access
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
+  
+  return children;
+}
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 function App() {
   // State management using React Hooks (useState, useEffect)
