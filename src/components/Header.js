@@ -74,13 +74,40 @@ function Header({ onSearch }) {
           )}
         </Link>
         
-        <Link 
-          to="/profile" 
-          className={`header-link ${location.pathname === '/profile' ? 'active' : ''}`}
-          data-testid="profile-link"
-        >
-          Profile
-        </Link>
+        {user ? (
+          <>
+            <Link 
+              to="/profile" 
+              className={`header-link ${location.pathname === '/profile' ? 'active' : ''}`}
+              data-testid="profile-link"
+            >
+              👤 {user.name}
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="header-link"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '10px 18px',
+                fontWeight: '600',
+                fontSize: '15px'
+              }}
+              data-testid="logout-button"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link 
+            to="/login" 
+            className={`header-link ${location.pathname === '/login' ? 'active' : ''}`}
+            data-testid="login-link"
+          >
+            Sign In / Join
+          </Link>
+        )}
       </div>
     </header>
   );
