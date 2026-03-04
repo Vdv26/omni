@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# OmniGigs - Freelance Services Marketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+OmniGigs is a modern, responsive single-page web application (SPA) built with React. It serves as a freelance marketplace where users can browse, search, and discover professional services ranging from web development to plumbing and digital marketing. 
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+* **Dynamic Gig Browsing:** View a wide variety of freelance services with pricing, ratings, and seller details.
+* **Search & Filtering:** Easily find specific services using the search bar or filter by categories (e.g., Programming & Tech, Plumbing Services, Digital Marketing).
+* **Advanced Sorting:** Sort gigs by Price (Low to High / High to Low) and Top Ratings.
+* **User Authentication Flow:** Protected routes ensure that users must be logged in to access specific features like posting a gig or making a payment.
+* **Favorites System:** Save and manage favorite gigs, persisted locally using the browser's `localStorage`.
+* **Interactive UI:** Smooth navigation using `react-router-dom` without page reloads.
+* **Mock Backend Integration:** Pre-loaded with diverse mock data to simulate a live database environment.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* **Frontend Framework:** React 19 (using Functional Components and Hooks like `useState`, `useEffect`, `useMemo`, `useContext`)
+* **Routing:** React Router v7 (`react-router-dom`)
+* **Styling:** CSS3 (Custom styling via `App.css` and `index.css`)
+* **State Management:** React Context API & Local Storage
+* **Development Environment:** Create React App (CRA)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+The application is modularized into reusable components located in the `src/components` directory:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Core Layout:** `Header`, `Footer`, `Hero`, `CategoryMenu`
+* **Gig Management:** `GigList`, `GigCard`, `GigDetail`, `PostGigForm`
+* **User Features:** `UserProfile`, `Favorites`, `LoginSignup`, `Payment`
+* **Informational Pages:** `HowItWorks`, `Resources`, `HelpCenter`, `TrustAndSafety`, `ContactUs`
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You need to have Node.js and npm (Node Package Manager) installed on your machine.
+* [Download Node.js](https://nodejs.org/)
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository** (or download the source code):
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   git clone https://github.com/Vdv26/omni
+   cd omni
