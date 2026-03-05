@@ -34,7 +34,7 @@ function ConfirmationModal({ gig, paymentMethod, onClose }) {
         <h2 style={{color: '#10b981', marginBottom: '16px'}}>Service Confirmed!</h2>
         
         <p style={{color: '#64748b', fontSize: '16px', marginBottom: '24px'}}>
-          Your payment of <strong style={{color: '#7c3aed'}}>${gig.price}</strong> has been processed successfully.
+          Your payment of <strong style={{color: '#7c3aed'}}>₹{gig.price}</strong> has been processed successfully.
         </p>
 
         <div style={{

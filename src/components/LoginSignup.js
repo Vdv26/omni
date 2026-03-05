@@ -1,136 +1,173 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-// Login/Signup Component with comprehensive form controls
-function LoginSignup({ onLogin }) {
+function LoginSignup() {
   const navigate = useNavigate();
   const location = useLocation();
+  const from = location.state?.from || '/';
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    name: '',
-    agreedToTerms: false
+    terms: false
   });
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  // Get the page user was trying to access
-  const from = location.state?.from || '/';
-
-  // Event handler - onChange
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  // Form validation
-  const validateForm = () => {
+  const validateLogin = () => {
     const newErrors = {};
-
-    // Email validation
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
-    }
-
-    // Name validation (signup only)
-    if (!isLogin && !formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    // Confirm password (signup only)
-    if (!isLogin) {
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = 'Please confirm your password';
-      } else if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match';
-      }
-
-      if (!formData.agreedToTerms) {
-        newErrors.agreedToTerms = 'You must agree to the terms and conditions';
-      }
-    }
-
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Enter a valid email';
+    if (!formData.password) newErrors.password = 'Password is required';
+    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Event handler - onSubmit
+  const validateSignup = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Enter a valid email';
+    if (!formData.password) newErrors.password = 'Password is required';
+    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
+    else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    if (!formData.terms) newErrors.terms = 'You must accept the terms and conditions';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValid = isLogin ? validateLogin() : validateSignup();
+    if (!isValid) return;
 
-    if (validateForm()) {
-      // Store user in localStorage
-      const user = {
-        email: formData.email,
-        name: formData.name || formData.email.split('@')[0],
-        loggedIn: true
-      };
+    const user = {
+      name: isLogin ? (formData.email.split('@')[0]) : formData.name,
+      email: formData.email,
+      loggedIn: true
+    };
+
+    // If signing up, save user
+    if (!isLogin) {
       localStorage.setItem('user', JSON.stringify(user));
-      
-      // Call parent component's login handler
-      onLogin(user);
-      
-      // Show success message
-      alert(isLogin ? 'Login successful!' : 'Account created successfully!');
-      
-      // Navigate to the page user was trying to access
-      // If coming from payment, need to handle gig data properly
-      if (from === '/payment') {
-        // Need to get gig from previous location state
-        navigate('/', { replace: true });
-        alert('Please select a service again to continue with payment');
+    } else {
+      // On login just set session
+      const existing = localStorage.getItem('user');
+      const parsed = existing ? JSON.parse(existing) : null;
+      if (parsed && parsed.email === formData.email) {
+        localStorage.setItem('user', JSON.stringify({ ...parsed, loggedIn: true }));
       } else {
-        navigate(from, { replace: true });
+        localStorage.setItem('user', JSON.stringify(user));
       }
     }
+
+    setSubmitted(true);
+    setTimeout(() => {
+      navigate(from);
+      window.location.reload(); // refresh so Header picks up the user from context
+    }, 1500);
   };
 
-  // Toggle between login and signup
-  const toggleMode = () => {
+  const switchMode = () => {
     setIsLogin(!isLogin);
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      name: '',
-      agreedToTerms: false
-    });
     setErrors({});
+    setFormData({ name: '', email: '', password: '', confirmPassword: '', terms: false });
   };
+
+  if (submitted) {
+    return (
+      <div className="main-container" data-testid="login-page">
+        <div className="form-container" style={{ textAlign: 'center', padding: '60px 40px' }}>
+          <div style={{ fontSize: '72px', marginBottom: '20px' }}>🎉</div>
+          <h2 style={{ marginBottom: '12px' }}>
+            {isLogin ? 'Welcome back!' : 'Account Created!'}
+          </h2>
+          <p style={{ color: '#64748b' }}>Redirecting you now...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="main-container" data-testid="login-signup-page">
-      <div className="form-container" style={{maxWidth: '500px'}}>
-        <h2 data-testid="form-title">{isLogin ? 'Welcome Back!' : 'Create Account'}</h2>
-        <p style={{color: '#64748b', marginBottom: '30px'}}>
-          {isLogin 
-            ? 'Login to access your account and continue'
-            : 'Sign up to start posting gigs and hiring freelancers'
-          }
+    <div className="main-container" data-testid="login-page">
+      <div className="form-container" style={{ maxWidth: '480px' }}>
+
+        {/* Toggle tabs */}
+        <div style={{
+          display: 'flex',
+          background: '#f1f5f9',
+          borderRadius: '10px',
+          padding: '4px',
+          marginBottom: '32px'
+        }}>
+          <button
+            onClick={() => isLogin || switchMode()}
+            data-testid="login-tab"
+            style={{
+              flex: 1,
+              padding: '10px',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: '700',
+              fontSize: '15px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              background: isLogin ? 'white' : 'transparent',
+              color: isLogin ? '#7c3aed' : '#94a3b8',
+              boxShadow: isLogin ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+            }}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => !isLogin || switchMode()}
+            data-testid="signup-tab"
+            style={{
+              flex: 1,
+              padding: '10px',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: '700',
+              fontSize: '15px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              background: !isLogin ? 'white' : 'transparent',
+              color: !isLogin ? '#7c3aed' : '#94a3b8',
+              boxShadow: !isLogin ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+            }}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <h2 style={{ marginBottom: '8px' }}>
+          {isLogin ? 'Welcome back 👋' : 'Create an account 🚀'}
+        </h2>
+        <p style={{ color: '#64748b', marginBottom: '28px' }}>
+          {isLogin
+            ? 'Sign in to access your account and favorites.'
+            : 'Join OmniGigs and start buying or selling services today.'}
         </p>
 
         <form onSubmit={handleSubmit}>
-          {/* Name field (Signup only) */}
+
+          {/* Name - signup only */}
           {!isLogin && (
             <div className="form-group">
               <label htmlFor="name">Full Name *</label>
@@ -143,11 +180,13 @@ function LoginSignup({ onLogin }) {
                 placeholder="John Doe"
                 data-testid="name-input"
               />
-              {errors.name && <span style={{color: '#ef4444', fontSize: '14px'}}>{errors.name}</span>}
+              {errors.name && (
+                <span style={{ color: '#ef4444', fontSize: '14px' }}>{errors.name}</span>
+              )}
             </div>
           )}
 
-          {/* Email field */}
+          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email Address *</label>
             <input
@@ -159,137 +198,97 @@ function LoginSignup({ onLogin }) {
               placeholder="you@example.com"
               data-testid="email-input"
             />
-            {errors.email && <span style={{color: '#ef4444', fontSize: '14px'}}>{errors.email}</span>}
+            {errors.email && (
+              <span style={{ color: '#ef4444', fontSize: '14px' }}>{errors.email}</span>
+            )}
           </div>
 
-          {/* Password field */}
+          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">Password *</label>
-            <div style={{position: 'relative'}}>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter password (min 6 characters)"
-                data-testid="password-input"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: 'absolute',
-                  right: '12px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '20px'
-                }}
-                data-testid="toggle-password-button"
-              >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
-              </button>
-            </div>
-            {errors.password && <span style={{color: '#ef4444', fontSize: '14px'}}>{errors.password}</span>}
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Min. 6 characters"
+              data-testid="password-input"
+            />
+            {errors.password && (
+              <span style={{ color: '#ef4444', fontSize: '14px' }}>{errors.password}</span>
+            )}
           </div>
 
-          {/* Confirm Password (Signup only) */}
+          {/* Confirm Password - signup only */}
           {!isLogin && (
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password *</label>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type="password"
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                placeholder="Re-enter password"
+                placeholder="Re-enter your password"
                 data-testid="confirm-password-input"
               />
-              {errors.confirmPassword && <span style={{color: '#ef4444', fontSize: '14px'}}>{errors.confirmPassword}</span>}
+              {errors.confirmPassword && (
+                <span style={{ color: '#ef4444', fontSize: '14px' }}>{errors.confirmPassword}</span>
+              )}
             </div>
           )}
 
-          {/* Terms checkbox (Signup only) */}
+          {/* Terms - signup only */}
           {!isLogin && (
             <div className="form-group">
-              <label style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
-                  name="agreedToTerms"
-                  checked={formData.agreedToTerms}
+                  name="terms"
+                  checked={formData.terms}
                   onChange={handleChange}
                   data-testid="terms-checkbox"
                 />
-                I agree to the Terms of Service and Privacy Policy *
+                I accept the{' '}
+                <span style={{ color: '#7c3aed', fontWeight: '600' }}>terms and conditions</span>
               </label>
-              {errors.agreedToTerms && <span style={{color: '#ef4444', fontSize: '14px'}}>{errors.agreedToTerms}</span>}
+              {errors.terms && (
+                <span style={{ color: '#ef4444', fontSize: '14px' }}>{errors.terms}</span>
+              )}
             </div>
           )}
 
-          {/* Submit button */}
-          <button type="submit" className="submit-btn" data-testid="submit-button">
-            {isLogin ? 'Login' : 'Create Account'}
+          <button
+            type="submit"
+            className="submit-btn"
+            data-testid="submit-button"
+          >
+            {isLogin ? 'Sign In →' : 'Create Account →'}
           </button>
         </form>
 
-        {/* Toggle between login and signup */}
-        <div style={{
-          textAlign: 'center',
-          marginTop: '24px',
-          paddingTop: '24px',
-          borderTop: '1px solid #e2e8f0'
-        }}>
-          <p style={{color: '#64748b'}}>
-            {isLogin ? "Don't have an account?" : 'Already have an account?'}
-            {' '}
-            <button
-              type="button"
-              onClick={toggleMode}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#7c3aed',
-                fontWeight: '700',
-                cursor: 'pointer',
-                textDecoration: 'underline'
-              }}
-              data-testid="toggle-mode-button"
-            >
-              {isLogin ? 'Sign Up' : 'Login'}
-            </button>
-          </p>
-        </div>
-
-        {/* Back to home */}
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          style={{
-            width: '100%',
-            padding: '12px',
-            marginTop: '16px',
-            background: 'white',
-            color: '#64748b',
-            border: '2px solid #e2e8f0',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: '600'
-          }}
-          data-testid="back-home-button"
-        >
-          ← Back to Home
-        </button>
+        <p style={{ textAlign: 'center', marginTop: '20px', color: '#64748b', fontSize: '14px' }}>
+          {isLogin ? "Don't have an account? " : 'Already have an account? '}
+          <button
+            onClick={switchMode}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#7c3aed',
+              fontWeight: '700',
+              cursor: 'pointer',
+              fontSize: '14px',
+              padding: 0
+            }}
+            data-testid="switch-mode-link"
+          >
+            {isLogin ? 'Sign Up' : 'Sign In'}
+          </button>
+        </p>
       </div>
     </div>
   );
 }
-
-LoginSignup.propTypes = {
-  onLogin: PropTypes.func.isRequired
-};
 
 export default LoginSignup;

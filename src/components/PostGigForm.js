@@ -242,7 +242,7 @@ function PostGigForm({ onAddGig }) {
         
         {/* Number Input */}
         <div className="form-group">
-          <label htmlFor="price">Price (USD) *</label>
+          <label htmlFor="price">Price (INR) *</label>
           <input
             type="number"
             id="price"

@@ -1,34 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Functional Component - Simple but demonstrates props and event handling
+// CategoryMenu bar removed - category filtering is now handled
+// by the "Get Started" modal in Hero.js
+// This file is kept so App.js imports don't break.
 function CategoryMenu({ onSelectCategory, activeCategory }) {
-  const categories = [
-    "Programming & Tech",
-    "Carpentry & Woodwork",
-    "Plumbing Services",
-    "Gardening & Landscaping",
-    "Electrical Works",
-    "Digital Marketing"
-  ];
-
-  return (
-    <div className="category-menu" data-testid="category-menu">
-      {categories.map((cat, index) => (
-        <span 
-          key={index} 
-          className={activeCategory === cat ? 'active' : ''}
-          onClick={() => onSelectCategory(cat)}
-          data-testid={`category-${cat.toLowerCase().replace(/\s+/g, '-')}`}
-        >
-          {cat}
-        </span>
-      ))}
-    </div>
-  );
+  return null;
 }
 
-// Props Validation
 CategoryMenu.propTypes = {
   onSelectCategory: PropTypes.func.isRequired,
   activeCategory: PropTypes.string.isRequired

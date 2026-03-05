@@ -168,7 +168,7 @@ function Payment() {
               </p>
             </div>
             <div style={{fontSize: '28px', fontWeight: 'bold', color: '#7c3aed'}}>
-              ${gig.price}
+              ₹{gig.price}
             </div>
           </div>
         </div>
@@ -368,7 +368,7 @@ function Payment() {
             disabled={isProcessing}
             data-testid="pay-now-button"
           >
-            {isProcessing ? '⏳ Processing...' : `💳 Pay $${gig.price} Now`}
+            {isProcessing ? '⏳ Processing...' : `💳 Pay ₹${gig.price} Now`}
           </button>
 
           <button

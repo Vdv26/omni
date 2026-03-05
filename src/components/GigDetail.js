@@ -99,7 +99,7 @@ function GigDetail({ gigs }) {
         </div>
         
         <div className="detail-sidebar" data-testid="detail-sidebar">
-          <h4>${gig.price}</h4>
+          <h4>₹{gig.price}</h4>
           <p style={{color: '#64748b', marginBottom: '20px'}}>Standard Package</p>
           
           <div className="feature-list">

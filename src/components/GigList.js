@@ -41,12 +41,12 @@ function GigList({ gigs }) {
         </div>
         
         <div className="price-filter">
-          <label htmlFor="price-range">Max Price: ${priceRange[1]}</label>
+          <label htmlFor="price-range">Max Price: ₹{priceRange[1]}</label>
           <input 
             type="range" 
             id="price-range"
             min="0" 
-            max="500" 
+            max="50000" 
             value={priceRange[1]}
             onChange={handlePriceChange}
             data-testid="price-range-slider"

@@ -64,7 +64,7 @@ function GigCard({ gig }) {
       
       <div className="gig-footer">
         <div className="gig-price" data-testid="gig-price">
-          STARTING AT <span>${price}</span>
+          STARTING AT <span>₹{price}</span>
         </div>
         
         <button 
