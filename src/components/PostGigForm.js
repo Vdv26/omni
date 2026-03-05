@@ -380,8 +380,8 @@ function PostGigForm({ onAddGig }) {
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer'
-              }}
-              data-testid="clear-signature-button"
+              }} 
+              data-testid="clear-signature-button"     
             >
               Clear Signature
             </button>
