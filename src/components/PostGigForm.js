@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 // - Canvas element (signature pad)
 // - DOM manipulation
 // - All form control types from syllabus
-
-function PostGigForm({ onAddGig }) {
+    
+function PostGigForm({ onAddGig }) {   
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -26,7 +26,7 @@ function PostGigForm({ onAddGig }) {
     terms: false // Single checkbox
   });
   
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});   
   const [hasSignature, setHasSignature] = useState(false);
 
   // Canvas setup - useEffect (Component Lifecycle)
